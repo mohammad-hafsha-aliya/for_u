@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine, Shoaib? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #feca57 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slides-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* SLIDE 1 - Question */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .crown {
+            font-size: 4em;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff1493; }
+        }
+
+        .love-declaration {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        #attemptCounter {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .buttons-container {
+            position: relative;
+            min-height: 200px;
+            margin: 50px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            font-size: 1.5em;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+            transform: scale(1);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.5);
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+            color: #333;
+            position: fixed;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        #noBtn:hover {
+            background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+            color: white;
+        }
+
+        #message {
+            font-size: 2.5em;
+            margin-top: 30px;
+            font-weight: bold;
+            animation: fadeIn 0.8s;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .heart-explosion {
+            font-size: 2em;
+            animation: heartbeat 1.2s infinite, rotate 3s linear infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.2) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .romantic-quote {
+            font-size: 1.1em;
+            font-style: italic;
+            margin-top: 20px;
+            opacity: 0.8;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* SLIDE 2 - Letter */
+        .letter-container {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            margin: 20px;
+            color: #333;
+            text-align: left;
+            position: relative;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .letter-title {
+            font-size: 2.5em;
+            color: #ff1493;
+            margin-bottom: 10px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .letter-date {
+            font-size: 1em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .letter-greeting {
+            font-size: 1.5em;
+            color: #ff1493;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .letter-body {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .letter-body p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .letter-signature {
+            text-align: right;
+            margin-top: 40px;
+            font-size: 1.3em;
+            color: #ff1493;
+            font-style: italic;
+        }
+
+        .letter-ps {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 105, 180, 0.3);
+            font-style: italic;
+            color: #666;
+        }
+
+        .decorative-heart {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 15em;
+            color: #ff69b4;
+        }
+
+        .decorative-heart.top-left {
+            top: -50px;
+            left: -50px;
+            transform: rotate(-20deg);
+        }
+
+        .decorative-heart.bottom-right {
+            bottom: -50px;
+            right: -50px;
+            transform: rotate(20deg);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            font-weight: bold;
+            opacity: 1;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.3);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .signature-heart {
+            font-size: 1.5em;
+        }
+
+        @media (max-width: 768px) {
+            .container, .letter-container {
+                padding: 40px 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .subtitle {
+                font-size: 1.5em;
+            }
+            button {
+                font-size: 1.2em;
+                padding: 15px 30px;
+            }
+            #message {
+                font-size: 1.8em;
+            }
+            .letter-title {
+                font-size: 2em;
+            }
+            .letter-body {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="slides-container" id="slidesContainer">
+        <!-- SLIDE 1: Question -->
+        <div class="slide">
+            <div class="container">
+                <div class="crown">👑</div>
+                <h1>Hey Shoaib! 💕</h1>
+                <div class="love-declaration">~ The Love of My Life ~</div>
+                <div class="subtitle">Will You Be My Valentine?</div>
+                <p class="question-text">I've been thinking about this for a while...</p>
+                <div id="attemptCounter" class="hidden"></div>
+                
+                <div class="buttons-container">
+                    <button id="yesBtn">Yes! 💖</button>
+                    <button id="noBtn">No</button>
+                </div>
+                
+                <div id="message"></div>
+                <div class="romantic-quote" id="quote"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Letter -->
+        <div class="slide">
+            <div class="letter-container">
+                <div class="decorative-heart top-left">💕</div>
+                <div class="decorative-heart bottom-right">💖</div>
+                
+                <div class="letter-header">
+                    <div class="letter-title">A Letter to My Valentine</div>
+                    <div class="letter-date">February 14th, 2026</div>
+                </div>
+
+                <div class="letter-greeting">My Dearest Shoaib,</div>
+
+                <div class="letter-body">
+                    <p>
+                        As I sit here writing this letter, my heart is overflowing with emotions that words can barely capture. You've become such an incredible part of my life, and I wanted to take this special moment to tell you exactly how much you mean to me.
+                    </p>
+
+                    <p>
+                        From the moment we met, something felt different. Your smile has the power to brighten even my darkest days, and your laughter is the sweetest melody I've ever heard. The way you understand me, support me, and make me feel cherished is something I treasure more than anything in this world.
+                    </p>
+
+                    <p>
+                        Every conversation with you feels like a gift. Every moment we share becomes a precious memory I hold close to my heart. You've shown me what it means to truly connect with someone, to feel safe being completely myself, and to experience love in its purest form.
+                    </p>
+
+                    <p>
+                        I admire your strength, your kindness, your intelligence, and the beautiful soul that you are. You inspire me to be better every single day. With you, I've discovered a happiness I didn't even know existed.
+                    </p>
+
+                    <p>
+                        This Valentine's Day, I want you to know that you're not just my Valentine – you're my best friend, my confidant, my safe haven, and the love of my life. I'm so grateful that the universe brought us together, and I can't wait to create countless more beautiful memories with you.
+                    </p>
+
+                    <p>
+                        Thank you for being exactly who you are. Thank you for choosing me. Thank you for making every day feel like a blessing.
+                    </p>
+                </div>
+
+                <div class="letter-signature">
+                    Forever yours,<br>
+                    With all my love 💝<br>
+                    <span style="font-size: 1.5em;">❤️</span>
+                </div>
+
+                <div class="letter-ps">
+                    P.S. - I hope this Valentine's Day is just the beginning of our beautiful forever together. You mean the world to me, Shoaib! 💕✨
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">Made with 💝 Just For You, Shoaib</div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const attemptCounter = document.getElementById('attemptCounter');
+        const quote = document.getElementById('quote');
+        const slidesContainer = document.getElementById('slidesContainer');
+        
+        let noClickCount = 0;
+        let yesBtnScale = 1;
+        let noBtnScale = 1;
+
+        // Messages that show as user tries to click "No"
+        const noMessages = [
+            "Are you sure? 🥺",
+            "Really? Give it another thought! 💭",
+            "The Yes button is looking so lonely... 😢",
+            "Pretty please? 🙏",
+            "Don't break my heart! 💔",
+            "I'll take that as a 'maybe'... 🤔",
+            "You're making this harder than it needs to be! 😅",
+            "Come on, Shoaib! Just say yes! 💕",
+            "The Yes button is getting bigger... hint hint! 👀",
+            "I won't give up that easily! 💪",
+            "Fine, I'll just keep asking! 😤",
+            "You know you want to say yes! 😏",
+            "Seriously? Still trying to escape? 🏃",
+            "Okay, this is getting ridiculous! 😂",
+            "I can do this all day! ⏰"
+        ];
+
+        const romanticQuotes = [
+            "\"In all the world, there is no heart for me like yours.\" 💝",
+            "\"You are my today and all of my tomorrows.\" ✨",
+            "\"Every love story is beautiful, but ours could be my favorite.\" 📖",
+            "\"You're the reason I believe in love.\" 🌟"
+        ];
+
+        // Create ambient floating hearts
+        function createAmbientHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.bottom = '-50px';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.opacity = '0.6';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '2';
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            let pos = -50;
+            const speed = Math.random() * 2 + 1;
+            const drift = (Math.random() - 0.5) * 100;
+            
+            const rise = setInterval(() => {
+                if (pos > window.innerHeight + 50) {
+                    clearInterval(rise);
+                    heart.remove();
+                } else {
+                    pos += speed;
+                    heart.style.bottom = pos + 'px';
+                    heart.style.left = `calc(${heart.style.left} + ${drift}px)`;
+                    heart.style.opacity = Math.max(0, 0.6 - (pos / window.innerHeight));
+                }
+            }, 30);
+        }
+
+        // Create ambient hearts periodically
+        setInterval(createAmbientHeart, 500);
+
+        // Handle Yes button click
+        yesBtn.addEventListener('click', () => {
+            message.innerHTML = "🎉 Yay! You made me the happiest! 🎉<br><div class='heart-explosion'>💖💕💝💗💓</div>";
+            message.style.color = "#ffeb3b";
+            quote.textContent = "This is the beginning of something beautiful, Shoaib! ✨";
+            noBtn.style.display = 'none';
+            attemptCounter.classList.add('hidden');
+            
+            // Create massive heart explosion
+            for(let i = 0; i < 100; i++) {
+                setTimeout(() => createCelebrationHeart(), i * 50);
+            }
+            
+            // Create fireworks
+            for(let i = 0; i < 30; i++) {
+                setTimeout(() => createFirework(), i * 100);
+            }
+
+            // Transition to letter after 3 seconds
+            setTimeout(() => {
+                slidesContainer.style.transform = 'translateX(-100vw)';
+            }, 3000);
+        });
+
+        // Handle No button hover and click
+        noBtn.addEventListener('mouseover', handleNoButtonEscape);
+        noBtn.addEventListener('click', handleNoButtonEscape);
+        noBtn.addEventListener('touchstart', handleNoButtonEscape);
+
+        function handleNoButtonEscape(e) {
+            e.preventDefault();
+            noClickCount++;
+            
+            // Update counter
+            attemptCounter.classList.remove('hidden');
+            attemptCounter.textContent = `Nice try! Attempts to escape: ${noClickCount} 😏`;
+            
+            // Show progressive messages
+            if (noClickCount <= noMessages.length) {
+                message.textContent = noMessages[noClickCount - 1];
+                message.style.color = "#fff";
+            }
+            
+            // Move No button to random position
+            const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+            
+            const randomX = Math.max(50, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(50, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Make Yes button progressively bigger and No button smaller
+            yesBtnScale += 0.15;
+            noBtnScale = Math.max(0.5, noBtnScale - 0.05);
+            
+            yesBtn.style.transform = `scale(${yesBtnScale})`;
+            noBtn.style.transform = `scale(${noBtnScale})`;
+            
+            // Show random romantic quote
+            if (noClickCount % 3 === 0) {
+                quote.textContent = romanticQuotes[Math.floor(Math.random() * romanticQuotes.length)];
+            }
+            
+            // Make No button disappear if too many attempts
+            if (noClickCount > 15) {
+                noBtn.style.opacity = '0';
+                setTimeout(() => {
+                    noBtn.style.display = 'none';
+                    message.innerHTML = "Fine! I'll take your silence as a YES! 😄💕";
+                    message.style.color = "#4caf50";
+                }, 500);
+            }
+        }
+
+        // Create celebration hearts
+        function createCelebrationHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️', '💕', '💖', '💗', '💝', '💓', '💞'][Math.floor(Math.random() * 7)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = '-50px';
+            heart.style.fontSize = (Math.random() * 40 + 30) + 'px';
+            heart.style.opacity = '1';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '100';
+            heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(heart);
+            
+            let pos = -50;
+            let rotation = Math.random() * 360;
+            const fall = setInterval(() => {
+                if (pos > window.innerHeight) {
+                    clearInterval(fall);
+                    heart.remove();
+                } else {
+                    pos += 5;
+                    rotation += 5;
+                    heart.style.top = pos + 'px';
+                    heart.style.transform = `rotate(${rotation}deg)`;
+                    heart.style.opacity = Math.max(0, 1 - (pos / window.innerHeight));
+                }
+            }, 20);
+        }
+
+        // Create firework effect
+        function createFirework() {
+            const colors = ['#ff6b9d', '#c06c84', '#f67280', '#feca57', '#48dbfb', '#ff9ff3'];
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight * 0.5;
+            
+            for(let i = 0; i < 30; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = x + 'px';
+                firework.style.top = y + 'px';
+                firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(firework);
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = Math.random() * 5 + 5;
+                let vx = Math.cos(angle) * velocity;
+                let vy = Math.sin(angle) * velocity;
+                let px = x;
+                let py = y;
+                let life = 100;
+                
+                const animate = setInterval(() => {
+                    life--;
+                    if(life <= 0) {
+                        clearInterval(animate);
+                        firework.remove();
+                    } else {
+                        vy += 0.2; // gravity
+                        px += vx;
+                        py += vy;
+                        firework.style.left = px + 'px';
+                        firework.style.top = py + 'px';
+                        firework.style.opacity = life / 100;
+                    }
+                }, 20);
+            }
+        }
+
+        // Initialize with a romantic quote
+        quote.textContent = romanticQuotes[0];
+
+        // Prevent right-click to view source (optional)
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
